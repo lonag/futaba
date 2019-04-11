@@ -1,15 +1,15 @@
 <?php
-/* 画像掲示板
+/*图片留言板
 futaba.php v0.8 lot.051031
-このスクリプトはレッツPHP!<http://php.s3.to/>のgazou.phpを改造したものです。
-配布条件はレッツPHP!に準じます。改造、再配布は自由にどうぞ。
-このスクリプトに関する質問はレッツPHP!にしないようにお願いします。
-最新版は<http://www.2chan.net/script/>で配布しています。
-ご質問は準備板＠ふたば<http://www.2chan.net/junbi/index2.html>までどうぞ。
-設置法：
-所望のディレクトリのパーミッションを777にします。
-srcディレクトリとthumbディレクトリを作り、パーミッションを777にします。<br>
-futaba.phpを置き、ブラウザから呼出します(必要なファイルが自動設定されます)。
+这个脚本是LetsPHP!<http://php.s3.to/>的gazou.php改造的。
+发放条件以retsphp为准。改造，再散发请自由。
+关于这个脚本的问题请不要做成retsphp!
+最新版在<http://ww.2chan.net/script/>上发布。
+提问请到准备板＠匆匆<http://ww.2chan.net/junbi/index2.html>。
+设置法：
+将所需目录权限设为777。
+制作src目录和thumb目录，将权限设为777。<br>
+设置futaba.php，从浏览器调用(必要的文件被自动设定)。
 */
 extract($_POST,EXTR_SKIP);
 extract($_GET,EXTR_SKIP);
@@ -20,7 +20,7 @@ define("LOGFILE", 'img.log');		//ログファイル名
 define("TREEFILE", 'tree.log');		//ログファイル名
 define("IMG_DIR", 'src/');		//画像保存ディレクトリ。futaba.phpから見て
 define("THUMB_DIR",'thumb/');		//サムネイル保存ディレクトリ
-define("TITLE", '画像掲示板');		//タイトル（<title>とTOP）
+define("TITLE", '图片论坛');		//タイトル（<title>とTOP）
 define("HOME",  '../');			//「ホーム」へのリンク
 define("MAX_KB", '500');			//投稿容量制限 KB（phpの設定により2Mまで
 define("MAX_W",  '250');			//投稿サイズ幅（これ以上はwidthを縮小
@@ -128,7 +128,7 @@ function updatelog($resno=0){
       list($artno,)=explode(",",rtrim($tree[$i]));
       if($artno==$resno){$st=$i;$find=true;break;} //レス先検索
     }
-    if(!$find) error("該当記事がみつかりません");
+    if(!$find) error("没有找到符合图像的公告牌");
   }
   $line = file(LOGFILE);
   $countline=count($line);
@@ -166,7 +166,7 @@ function updatelog($resno=0){
       $size = filesize($img);//altにサイズ表示
       if($w && $h){//サイズがある時
         if(@is_file(THUMB_DIR.$time.'s.jpg')){
-          $imgsrc = "<small>サムネイルを表示しています.クリックすると元のサイズを表示します.</small><br><a href=\"".$src."\" target=_blank><img src=".THUMB_DIR.$time.'s.jpg'.
+          $imgsrc = "<small>显示缩略图.单击可显示原始大小.</small><br><a href=\"".$src."\" target=_blank><img src=".THUMB_DIR.$time.'s.jpg'.
       " border=0 align=left width=$w height=$h hspace=20 alt=\"".$size." B\"></a>";
         }else{
           $imgsrc = "<a href=\"".$src."\" target=_blank><img src=".$src.
@@ -176,7 +176,7 @@ function updatelog($resno=0){
         $imgsrc = "<a href=\"".$src."\" target=_blank><img src=".$src.
       " border=0 align=left hspace=20 alt=\"".$size." B\"></a>";
       }
-      $dat.="画像タイトル：<a href=\"$src\" target=_blank>$time$ext</a>-($size B)<br>$imgsrc";
+      $dat.="图像标题：<a href=\"$src\" target=_blank>$time$ext</a>-($size B)<br>$imgsrc";
     }
     // メイン作成
     $dat.="<input type=checkbox name=\"$no\" value=delete><font color=#cc1105 size=+1><b>$sub</b></font> \n";
@@ -185,7 +185,7 @@ function updatelog($resno=0){
     $dat.="\n<blockquote>$com</blockquote>";
      // そろそろ消える。
      if($lineindex[$no]-1 >= LOG_MAX*0.95){
-      $dat.="<font color=\"#f00000\"><b>このスレは古いので、もうすぐ消えます。</b></font><br>\n";
+      $dat.="<font color=\"#f00000\"><b>因为图像标题这个帖子旧，马上消失。</b></font><br>\n";
      }
     //レス作成
     if(!$resno){
@@ -193,7 +193,7 @@ function updatelog($resno=0){
      if($s<1){$s=1;}
      elseif($s>1){
       $dat.="<font color=\"#707070\">レス".
-             ($s - 1)."件省略。全て読むには返信ボタンを押してください。</font><br>\n";
+             ($s - 1)."省略此事。要全部看请按回信按钮。</font><br>\n";
      }
     }else{$s=1;}
     for($k = $s; $k < count($treeline); $k++){
@@ -215,7 +215,7 @@ function updatelog($resno=0){
       $size = filesize($img);//altにサイズ表示
       if($w && $h){//サイズがある時
         if(@is_file(THUMB_DIR.$time.'s.jpg')){
-          $imgsrc = "<small>サムネイル表示</small><br><a href=\"".$src."\" target=_blank><img src=".THUMB_DIR.$time.'s.jpg'.
+          $imgsrc = "<small>缩略图视图</small><br><a href=\"".$src."\" target=_blank><img src=".THUMB_DIR.$time.'s.jpg'.
       " border=0 align=left width=$w height=$h hspace=20 alt=\"".$size." B\"></a>";
         }else{
           $imgsrc = "<a href=\"".$src."\" target=_blank><img src=".$src.
@@ -256,7 +256,7 @@ $dat.='<table align=right><tr><td nowrap align=center>
         }
         $dat.="<input type=submit value=\"前のページ\">";
         $dat.="</td></form>";
-      }else{$dat.="<td>最初のページ</td>";}
+      }else{$dat.="<td>第一页</td>";}
       $dat.="<td>";
       for($i = 0; $i < count($tree) ; $i+=PAGE_DEF){
         if($st==$i){$dat.="[<b>".($i/PAGE_DEF)."</b>] ";}
@@ -270,7 +270,7 @@ $dat.='<table align=right><tr><td nowrap align=center>
         $dat.="<form action=\"".$next/PAGE_DEF.PHP_EXT."\" method=get><td>";
         $dat.="<input type=submit value=\"次のページ\">";
         $dat.="</td></form>";
-      }else{$dat.="<td>最後のページ</td>";}
+      }else{$dat.="<td>最后一页</td>";}
         $dat.="</tr></table><br clear=all>\n";
     }
     foot($dat);
@@ -331,12 +331,12 @@ function regist($name,$email,$sub,$com,$url,$pwd,$upfile,$upfile_name,$resto){
     //↑でエラーなら↓に変更
     //copy($upfile, $dest);
     $upfile_name = CleanStr($upfile_name);
-    if(!is_file($dest)) error("アップロードに失敗しました<br>サーバがサポートしていない可能性があります",$dest);
+    if(!is_file($dest)) error("上传失败<br>服务器可能不支持",$dest);
     $size = getimagesize($dest);
-    if(!is_array($size)) error("アップロードに失敗しました<br>画像ファイル以外は受け付けません",$dest);
+    if(!is_array($size)) error("上传失败<br>不接受图像文件",$dest);
     $chk = md5_of_file($dest);
     foreach($badfile as $value){if(ereg("^$value",$chk)){
-      error("アップロードに失敗しました<br>同じ画像がありました",$dest); //拒絶画像
+      error("上传失败<br>有同样的图像",$dest); //拒絶画像
     }}
     chmod($dest,0666);
     $W = $size[0];
@@ -359,17 +359,17 @@ function regist($name,$email,$sub,$com,$url,$pwd,$upfile,$upfile_name,$resto){
       $W = ceil($W * $key);
       $H = ceil($H * $key);
     }
-    $mes = "画像 $upfile_name のアップロードが成功しました<br><br>";
+    $mes = "图片 $upfile_name 上传成功<br><br>";
   }
   foreach($badstring as $value){if(ereg($value,$com)||ereg($value,$sub)||ereg($value,$name)||ereg($value,$email)){
   error("拒絶されました(str)",$dest);};}
-  if($_SERVER["REQUEST_METHOD"] != "POST") error("不正な投稿をしないで下さい(post)",$dest);
+  if($_SERVER["REQUEST_METHOD"] != "POST") error("请不要做无效的投稿(post)",$dest);
   // フォーム内容をチェック
   if(!$name||ereg("^[ |　|]*$",$name)) $name="";
   if(!$com||ereg("^[ |　|\t]*$",$com)) $com="";
   if(!$sub||ereg("^[ |　|]*$",$sub))   $sub=""; 
   if(!$resto&&!$textonly&&!is_file($dest)) error("画像がありません",$dest);
-  if(!$com&&!is_file($dest)) error("何か書いて下さい",$dest);
+  if(!$com&&!is_file($dest)) error("请写点什么",$dest);
   $name=ereg_replace("管理","\"管理\"",$name);
   $name=ereg_replace("削除","\"削除\"",$name);
   if(strlen($com) > 1000) error("本文が長すぎますっ！",$dest);
@@ -459,9 +459,9 @@ function regist($name,$email,$sub,$com,$url,$pwd,$upfile,$upfile_name,$resto){
     $salt=strtr($salt,":;<=>?@[\\]^_`","ABCDEFGabcdef"); 
     $name.="</b>◆".substr(crypt($cap,$salt),-10)."<b>";
   }
-  if(!$name) $name="名無し";
-  if(!$com) $com="本文なし";
-  if(!$sub) $sub="無題"; 
+  if(!$name) $name="无名氏";
+  if(!$com) $com="无正文";
+  if(!$sub) $sub="无标题"; 
   //ログ読み込み
   $fp=fopen(LOGFILE,"r+");
   flock($fp, 2);
@@ -483,9 +483,9 @@ function regist($name,$email,$sub,$com,$url,$pwd,$upfile,$upfile_name,$resto){
    if(strlen($ltime)>10){$ltime=substr($ltime,0,-3);}
    if($host==$lhost||substr(md5($pwd),2,8)==$lpwd||substr(md5($pwdc),2,8)==$lpwd){$pchk=1;}else{$pchk=0;}
    if(RENZOKU && $pchk && $time - $ltime < RENZOKU)
-    error("連続投稿はもうしばらく時間を置いてからお願い致します",$dest);
+    error("连续投稿请暂时放置一段时间",$dest);
    if(RENZOKU && $pchk && $time - $ltime < RENZOKU2 && $upfile_name)
-    error("画像連続投稿はもうしばらく時間を置いてからお願い致します",$dest);
+    error("请将图像连续投稿时间放置一段时间后再投稿",$dest);
    if(RENZOKU && $pchk && $com == $lcom && !$upfile_name)
     error("連続投稿はもうしばらく時間を置いてからお願い致します",$dest);
   }
@@ -583,7 +583,7 @@ function regist($name,$email,$sub,$com,$url,$pwd,$upfile,$upfile_name,$resto){
   }
   updatelog();
   echo "<html><head><META HTTP-EQUIV=\"refresh\" content=\"1;URL=".PHP_SELF2."\"></head>";
-  echo "<body>$mes 画面を切り替えます</body></html>";
+  echo "<body>$mes 切换画面</body></html>";
 }
 //サムネイル作成
 function thumb($path,$tim,$ext){
@@ -765,19 +765,19 @@ function valid($pass){
   if($pass && $pass != ADMIN_PASS) error("パスワードが違います");
   head($dat);
   echo $dat;
-  echo "[<a href=\"".PHP_SELF2."\">掲示板に戻る</a>]\n";
-  echo "[<a href=\"".PHP_SELF."\">ログを更新する</a>]\n";
+  echo "[<a href=\"".PHP_SELF2."\">回到公告牌</a>]\n";
+  echo "[<a href=\"".PHP_SELF."\">更新日志</a>]\n";
   echo "<table width='100%'><tr><th bgcolor=#E08000>\n";
-  echo "<font color=#FFFFFF>管理モード</font>\n";
+  echo "<font color=#FFFFFF>管理模式</font>\n";
   echo "</th></tr></table>\n";
   echo "<p><form action=\"".PHP_SELF."\" method=POST>\n";
   // ログインフォーム
   if(!$pass){
-    echo "<center><input type=radio name=admin value=del checked>記事削除 ";
-    echo "<input type=radio name=admin value=post>管理人投稿<p>";
+    echo "<center><input type=radio name=admin value=del checked>删除文章 ";
+    echo "<input type=radio name=admin value=post>管理员投稿<p>";
     echo "<input type=hidden name=mode value=admin>\n";
     echo "<input type=password name=pass size=8>";
-    echo "<input type=submit value=\" 認証 \"></form></center>\n";
+    echo "<input type=submit value=\" 认证 \"></form></center>\n";
     die("</body></html>");
   }
 }
@@ -833,13 +833,13 @@ function admindel($pass){
   echo "<input type=hidden name=mode value=admin>\n";
   echo "<input type=hidden name=admin value=del>\n";
   echo "<input type=hidden name=pass value=\"$pass\">\n";
-  echo "<center><P>削除したい記事のチェックボックスにチェックを入れ、削除ボタンを押して下さい。\n";
-  echo "<p><input type=submit value=\"削除する\">";
+  echo "<center><P>请在想删除的文章的复选框中输入复选框，按下删除按钮。\n";
+  echo "<p><input type=submit value=\"删除，删除。\">";
   echo "<input type=reset value=\"リセット\">";
-  echo "[<input type=checkbox name=onlyimgdel value=on>画像だけ消す]";
+  echo "[<input type=checkbox name=onlyimgdel value=on>只删除图像]";
   echo "<P><table border=1 cellspacing=0>\n";
-  echo "<tr bgcolor=6080f6><th>削除</th><th>記事No</th><th>投稿日</th><th>題名</th>";
-  echo "<th>投稿者</th><th>コメント</th><th>ホスト名</th><th>添付<br>(Bytes)</th><th>md5</th>";
+  echo "<tr bgcolor=6080f6><th>削除</th><th>消息No</th><th>投稿日</th><th>标题</th>";
+  echo "<th>投稿者</th><th>コメント</th><th>主机名</th><th>附件<br>(Bytes)</th><th>md5</th>";
   echo "</tr>\n";
   $line = file(LOGFILE);
   for($j = 0; $j < count($line); $j++){
@@ -874,10 +874,10 @@ function admindel($pass){
     echo "<td>$host</td><td align=center>$clip($size)</td><td>$chk</td>\n";
     echo "</tr>\n";
   }
-  echo "</table><p><input type=submit value=\"削除する$msg\">";
+  echo "</table><p><input type=submit value=\"删除，删除$msg\">";
   echo "<input type=reset value=\"リセット\"></form>";
   $all = (int)($all / 1024);
-  echo "【 画像データ合計 : <b>$all</b> KB 】";
+  echo "【 图像数据总和 : <b>$all</b> KB 】";
   die("</center></body></html>");
 }
 function init(){
@@ -888,22 +888,22 @@ function init(){
     if(!file_exists(realpath($value))){
       $fp = fopen($value, "w");
       set_file_buffer($fp, 0);
-      if($value==LOGFILE)fputs($fp,"1,2002/01/01(月) 00:00,名無し,,無題,本文なし,,,,,,,,\n");
+      if($value==LOGFILE)fputs($fp,"1,2002/01/01(月) 00:00,无名氏,,无名氏,无正文,,,,,,,,\n");
       if($value==TREEFILE)fputs($fp,"1\n");
       fclose($fp);
       if(file_exists(realpath($value)))@chmod($value,0666);
     }
-    if(!is_writable(realpath($value)))$err.=$value."を書けません<br>";
-    if(!is_readable(realpath($value)))$err.=$value."を読めません<br>";
+    if(!is_writable(realpath($value)))$err.=$value."不能写字<br>";
+    if(!is_readable(realpath($value)))$err.=$value."无法读取<br>";
   }
   @mkdir(IMG_DIR,0777);@chmod(IMG_DIR,0777);
-  if(!is_dir(realpath(IMG_DIR)))$err.=IMG_DIR."がありません<br>";
-  if(!is_writable(realpath(IMG_DIR)))$err.=IMG_DIR."を書けません<br>";
-  if(!is_readable(realpath(IMG_DIR)))$err.=IMG_DIR."を読めません<br>";
+  if(!is_dir(realpath(IMG_DIR)))$err.=IMG_DIR."没有评论<br>";
+  if(!is_writable(realpath(IMG_DIR)))$err.=IMG_DIR."不能写字<br>";
+  if(!is_readable(realpath(IMG_DIR)))$err.=IMG_DIR."无法读取<br>";
   if(USE_THUMB){
     @mkdir(THUMB_DIR,0777);@chmod(THUMB_DIR,0777);
-    if(!is_dir(realpath(IMG_DIR)))$err.=THUMB_DIR."がありません<br>";
-    if(!is_writable(realpath(THUMB_DIR)))$err.=THUMB_DIR."を書けません<br>";
+    if(!is_dir(realpath(IMG_DIR)))$err.=THUMB_DIR."没有评论<br>";
+    if(!is_writable(realpath(THUMB_DIR)))$err.=THUMB_DIR."不能写字<br>";
     if(!is_readable(realpath(THUMB_DIR)))$err.=THUMB_DIR."を読めません<br>";
   }
   if($err)error($err);
