@@ -49,7 +49,7 @@ $addinfo='';
 /* ヘッダ */
 function head(&$dat){
   $dat.='<html><head>
-<META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=Shift_JIS">
+<META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=utf-8">
 <!-- meta HTTP-EQUIV="pragma" CONTENT="no-cache" -->
 <STYLE TYPE="text/css">
 <!--
